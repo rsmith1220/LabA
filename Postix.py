@@ -1,3 +1,7 @@
+from graphviz import Graph
+import graphviz
+import AFN
+
 def Postfix():
     # Define the operator precedence
     precedence = {'|': 1, '.': 2, '?': 3, '*': 3, '+': 3}
@@ -6,7 +10,7 @@ def Postfix():
     specials = ['|', '.', '?', '*', '+', '(', ')','ε']
 
     def regex_to_postfix(regex):
-        """Convert a regular expression to postfix."""
+        #convertir la expresion a postfix
         output = []
         stack = []
         for char in regex:
@@ -30,3 +34,7 @@ def Postfix():
     regex = input("Enter a regular expression: ")
     postfix = regex_to_postfix(regex)
     print(f"Postfix: {postfix}")
+    # AFN.postfix_to_nfa(postfix)
+    nfa = AFN.postfix_to_nfa(postfix)
+    nfa.render('nfa')
+    

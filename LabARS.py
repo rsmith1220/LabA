@@ -1,4 +1,4 @@
 import Postix
 
-Postix.Postfix()
 
+Postix.Postfix()
