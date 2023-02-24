@@ -61,7 +61,7 @@ def create_nfa(postfix_expression):
         for transition in state['transitions']:
             
             if len(transition) == 2:
-                transition += ('',)
+                transition += ('ε',)
             label = transition[2]
             #con este dot se crea el grafo
             dot.edge(str(state['id']), str(transition[1]), label=label)
