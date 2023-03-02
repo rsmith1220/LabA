@@ -1,4 +1,6 @@
 import Postix
+import nuevo
 
+# Postix.Postfix()
 
-Postix.Postfix()
+nuevo.PostfixFromRegex()

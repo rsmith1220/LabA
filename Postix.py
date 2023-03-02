@@ -1,44 +1,83 @@
+import re
 import AFNgraph
-def Postfix():
-    #Definir un diccionario para saber el orden 
-    precedence = {'|': 1, '.': 2, '?': 3, '*': 3, '+': 3}
+# precedence level of supported operators.
+PRECEDENCE = {
+    '^': 4, # highest precedence level
+    '*': 3,
+    '|': 3,
+    '+': 2,
+    '-': 2,
+    '(': 1,
+}
+def PostfixFromRegex():
 
-    # Define caracteres especiales
-    specials = ['|', '.', '?', '*', '+', '(', ')','ε']
-
-    def regex_to_postfix(regex):
-        #convertir la expresion a postfix
-        output = []
+    def infixToPostfix(expr):
+        tokens = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\^\+\*\-\|])", expr)
         stack = []
-        for char in regex:
-            #append a una lista si no es un caracter especial
-            if char not in specials:
-                output.append(char)
-            elif char == '(':
-                stack.append(char)
-            elif char == ')':
-                #si el parentesis no es el que se abre, lo agrega
-                while stack and stack[-1] != '(':
-                    output.append(stack.pop())
-                stack.pop()
-                #Si el caracter es un operador, la funcion hace pop
+        postfix = []
+
+        for token in tokens:
+            # If the token is an operand, then do not push it to stack. 
+            # Instead, pass it to the output.
+            if token.isalnum():
+                postfix.append(token)
+
+            # If your current token is a right parenthesis
+            # push it on to the stack
+            elif token == '(':
+                stack.append(token)
+
+            # If your current token is a right parenthesis,
+            # pop the stack until after the first left parenthesis.
+            # Output all the symbols except the parentheses.
+            elif token == ')':
+                top = stack.pop()
+                while top != '(':
+                    postfix.append(top)
+                    top = stack.pop()
+
+            # Before you can push the operator onto the stack, 
+            # you have to pop the stack until you find an operator
+            # with a lower priority than the current operator.
+            # The popped stack elements are written to output.
             else:
-                while stack and precedence.get(stack[-1], 0) >= precedence.get(char, 0):
-                    output.append(stack.pop())
-                stack.append(char)
-        #append si todavia hay caracteres
+                while stack and (PRECEDENCE[stack[-1]] >= PRECEDENCE[token]):
+                    postfix.append(stack.pop())
+                stack.append(token)
+
+        # After the entire expression is scanned, 
+        # pop the rest of the stack 
+        # and write the operators in the stack to the output.
         while stack:
-            output.append(stack.pop())
-        #regresa el output como un string
-        return ''.join(output)
+            postfix.append(stack.pop())
+        # return ' '.join(postfix)
+        return postfix
 
+
+    def listToString(s):
+ 
+        # initialize an empty string
+        str1 = ""
     
+        # traverse in the string
+        for ele in s:
+            str1 += ele
+    
+        # return string
+        print(str1)
+        return str1
+
     regex = input("Ingrese su expresion regular: ")
-    postfix = regex_to_postfix(regex)
-    print(f"Postfix: {postfix}")
-    #se llama la clase AFNgraph para hacer el grafo
-    AFNgraph.create_nfa(postfix)
-    
 
-    
-    
+    # Let's convert infix to postfix
+
+    expressions = [regex]
+
+
+    for expr in expressions:
+        lista=(infixToPostfix(expr))
+
+    final=listToString(lista)
+    AFNgraph.create_nfa(final)
+
+   
