@@ -14,12 +14,15 @@ def create_nfa(postfix_expression):
         elif token == '|':
             #usando stack y pop se actualiza el stack
             #procesa un token y actualiza el stack
-            right_state = stack.pop()
-            left_state = stack.pop()
+            right_state = {'id': len(stack), 'transitions': [(1, len(stack) + 1, 'ε')], 'accepting': False}
+            left_state = {'id': len(stack), 'transitions': [(2, len(stack) + 1, 'ε')], 'accepting': False}
+            up=stack.pop()
+            down=stack.pop()
             new_state = {'id': len(stack), 'transitions': [], 'accepting': False}
             new_state['transitions'] += left_state['transitions']
             new_state['transitions'] += right_state['transitions']
             stack.append(new_state)
+            
 
         elif token == '+':  
             #hace un pop y una transicion a si mismo

@@ -2,7 +2,7 @@ import re
 import AFNgraph
 # precedence level of supported operators.
 PRECEDENCE = {
-    '^': 4, # highest precedence level
+    '?': 4, # highest precedence level
     '*': 3,
     '|': 3,
     '+': 2,
