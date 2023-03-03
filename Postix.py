@@ -12,7 +12,7 @@ PRECEDENCE = {
 def PostfixFromRegex():
 
     def infixToPostfix(expr):
-        tokens = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\^\+\*\-\|])", expr)
+        tokens = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\?\+\*\-\|])", expr)
         stack = []
         postfix = []
 
@@ -78,6 +78,6 @@ def PostfixFromRegex():
         lista=(infixToPostfix(expr))
 
     final=listToString(lista)
-    AFNgraph.create_nfa(final)
+    # AFNgraph.create_nfa(final)
 
    
