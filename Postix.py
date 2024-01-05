@@ -1,8 +1,8 @@
 import re
 import AFNgraph
-# precedence level of supported operators.
+# niveles importantes
 PRECEDENCE = {
-    '?': 4, # highest precedence level
+    '?': 4, 
     '*': 3,
     '|': 3,
     '+': 2,
@@ -17,59 +17,50 @@ def PostfixFromRegex():
         postfix = []
 
         for token in tokens:
-            # If the token is an operand, then do not push it to stack. 
-            # Instead, pass it to the output.
+            #si el token es un operando empujarlo al output
             if token.isalnum():
                 postfix.append(token)
 
-            # If your current token is a right parenthesis
-            # push it on to the stack
+            #si el token es un parentesis izquierdo meterlo al stack
             elif token == '(':
                 stack.append(token)
 
-            # If your current token is a right parenthesis,
-            # pop the stack until after the first left parenthesis.
-            # Output all the symbols except the parentheses.
+            
             elif token == ')':
                 top = stack.pop()
                 while top != '(':
                     postfix.append(top)
                     top = stack.pop()
 
-            # Before you can push the operator onto the stack, 
-            # you have to pop the stack until you find an operator
-            # with a lower priority than the current operator.
-            # The popped stack elements are written to output.
+            
             else:
                 while stack and (PRECEDENCE[stack[-1]] >= PRECEDENCE[token]):
                     postfix.append(stack.pop())
                 stack.append(token)
 
-        # After the entire expression is scanned, 
-        # pop the rest of the stack 
-        # and write the operators in the stack to the output.
+        
         while stack:
             postfix.append(stack.pop())
-        # return ' '.join(postfix)
+        
         return postfix
 
 
     def listToString(s):
  
-        # initialize an empty string
+        
         str1 = ""
     
-        # traverse in the string
+        
         for ele in s:
             str1 += ele
     
-        # return string
+        
         print(str1)
         return str1
 
     regex = input("Ingrese su expresion regular: ")
 
-    # Let's convert infix to postfix
+    
 
     expressions = [regex]
 
@@ -78,6 +69,5 @@ def PostfixFromRegex():
         lista=(infixToPostfix(expr))
 
     final=listToString(lista)
-    # AFNgraph.create_nfa(final)
 
    
