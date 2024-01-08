@@ -56,9 +56,24 @@ def PostfixFromRegex():
     
         
         print(str1)
+        AFNgraph.create_nfa(str1)
         return str1
 
     regex = input("Ingrese su expresion regular: ")
+    
+    acepta = ['ε','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','*','+','|','?','(',')']
+
+    for token in regex:
+        if token not in acepta:
+            print("La regex no se acepta")
+            quit()
+        
+        else:
+            if regex[-1]== '|' or regex[-1]=='(' or regex[-1]=='+' or regex[-1]=='-':
+                print("regex no puede usarse")
+                quit()
+            else:
+                pass
 
     
 
@@ -69,5 +84,5 @@ def PostfixFromRegex():
         lista=(infixToPostfix(expr))
 
     final=listToString(lista)
-
+    
    
